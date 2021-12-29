@@ -3,6 +3,6 @@ Attempt to solve Advent Of Code 2021 as an evolving project with Use Cases and T
 
 At first I wanted just to have coding fun, but due to it's too late for submitions, I decided to make an experiment and try to solve the challenges as an evolving project (as I don't know what the upcoming spec changes will be).
 
-So let's try to define a Use Cases for each Day (or update the existing ones), and later TDD the solutions.
+So let's try to define Use Cases (or Features?) for each Day (or update the existing ones), and later TDD the solutions.
 
 As an additional goal, let's also make submitting the results to the Advent Of Code website as a "release" - any error is fatal, so we need to provide a correct result from the first attempt.

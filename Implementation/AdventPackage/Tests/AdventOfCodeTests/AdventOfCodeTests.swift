@@ -26,6 +26,14 @@ struct Depth: Equatable {
     let value: Int
 }
 
+struct DepthAnalyzer {
+    static func process(input: [Depth]) throws -> Int {
+        throw "Empty Input Error"
+    }
+}
+
+extension String: Error {}
+
 //MARK: - Tests-only code
 extension Sonar {
     static func withMockDepths(mock: [Depth]) -> Self {
@@ -65,5 +73,14 @@ final class AdventOfCodeTests: XCTestCase {
         })
         
         sut.performSonarSweep()
+    }
+    
+    func test_depthAnalyzer_returnsEmptyInputError_whenInputDepthsListIsEmpty() {
+        let sut = DepthAnalyzer.self
+        let expectedError: Error = "Empty Input Error"
+        
+        XCTAssertThrowsError(try sut.process(input: [])) { error in
+            XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription)
+        }
     }
 }

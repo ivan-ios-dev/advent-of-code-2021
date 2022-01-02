@@ -12,6 +12,8 @@ Sounds like it should be done in a loop until the submarine is below the surface
 These are just an overview of "what" the system can do, without details on "how" it should be implemented.
 
 In order to start on the "how" part, we can define "use cases", thinking about possible inputs, outputs and entities.
+When doing TDD we can use Protocol-Oriented programming, which is quite popular with Swift, but as mentioned on "pointfree.co", it's better to start with concrete data types instead.
+
 
 ## Use Cases
 
@@ -41,3 +43,4 @@ In order to start on the "how" part, we can define "use cases", thinking about p
 
 #### Output
 1. Number of times the "depth" increases
+

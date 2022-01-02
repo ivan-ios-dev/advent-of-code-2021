@@ -2,15 +2,20 @@ import XCTest
 @testable import AdventOfCode
 
 struct Submarine {
+    //For now let's perform sonar sweep only when depth changes,
+    //not automatically in time intervals
     var depth: Depth {
         didSet {
-            didPerformSonarSweep([])
+            performSonarSweep()
         }
     }
     
     var didPerformSonarSweep: (_ depths: [Depth]) -> Void
     
-    
+    func performSonarSweep() {
+        let result: [Depth] = []
+        didPerformSonarSweep(result)
+    }
 }
 
 struct Depth {
@@ -36,4 +41,6 @@ final class AdventOfCodeTests: XCTestCase {
         //it performs sonar sweep
         XCTAssertEqual(sonarSweepPerformedCount, 1)
     }
+    
+    
 }

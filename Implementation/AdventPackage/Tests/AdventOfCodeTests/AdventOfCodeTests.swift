@@ -28,7 +28,16 @@ struct Depth: Equatable {
 
 struct DepthAnalyzer {
     static func process(input: [Depth]) throws -> Int {
-        throw "Empty Input Error"
+        guard !input.isEmpty else {
+            throw "Empty Input Error"
+        }
+        var count = 0
+        for i in 1..<input.count {
+            if input[i].value > input[i-1].value {
+                count += 1
+            }
+        }
+        return count
     }
 }
 
@@ -82,5 +91,21 @@ final class AdventOfCodeTests: XCTestCase {
         XCTAssertThrowsError(try sut.process(input: [])) { error in
             XCTAssertEqual(error.localizedDescription, expectedError.localizedDescription)
         }
+    }
+    
+    func test_depthAnalyzer_returnsDepthsIncreaseCount() {
+        let sut = DepthAnalyzer.self
+        
+        let depthIncreased1Time: [Depth] = [.init(value: 1), .init(value: 2)]
+        XCTAssertEqual(try! sut.process(input: depthIncreased1Time), 1)
+        
+        let depthIncreasedZeroTime: [Depth] = [.init(value: 2), .init(value: 1)]
+        XCTAssertEqual(try! sut.process(input: depthIncreasedZeroTime), 0)
+        
+        let depthIncreased2Times: [Depth] = [.init(value: 1), .init(value: 2), .init(value: 2), .init(value: 3)]
+        XCTAssertEqual(try! sut.process(input: depthIncreased2Times), 2)
+        
+        let depthIncreasedAtTheEnd: [Depth] = [.init(value: 1), .init(value: 1), .init(value: 1), .init(value: 3)]
+        XCTAssertEqual(try! sut.process(input: depthIncreasedAtTheEnd), 1)
     }
 }

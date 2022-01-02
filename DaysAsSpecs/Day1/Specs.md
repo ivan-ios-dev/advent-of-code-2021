@@ -6,6 +6,9 @@ In short, we have a following "features" of the system, to be implemented:
 - Submarine can perform sonar sweep
 - Depth Analyzer can process sonar sweep results
 
+To be precise, the submarine performs sonar sweep "autmatically when it drops below the surface of the ocean".
+Sounds like it should be done in a loop until the submarine is below the surface. In other words, when the depth of the submarine is greater than zero.
+
 These are just an overview of "what" the system can do, without details on "how" it should be implemented.
 
 In order to start on the "how" part, we can define "use cases", thinking about possible inputs, outputs and entities.
@@ -19,8 +22,8 @@ In order to start on the "how" part, we can define "use cases", thinking about p
 2. "Depth" - measurement type
 
 #### Main flow
-1. System performs sonar sweep
-2. System delivers depths list
+1. Submarine performs sonar sweep, if it's depth is greater than zero
+2. Submarine delivers see floor depths list
 
 #### Output
 1. List of "depths"

@@ -9,8 +9,26 @@ extension Sonar {
     static var empty: Self {
         return Self.withMockDepths(mock: [])
     }
+    static func withDepthsFromFile(textfile: String) -> Self {
+        return Self.init {
+            return Depth.readDepths(from: textfile)
+        }
+    }
 }
 
+private extension Depth {
+    static func readDepths(from textfile: String) -> [Depth] {
+        let data = TestBundle.inputData(from: textfile)
+        let str = String(decoding: data, as: UTF8.self)
+        
+        let depths = str
+            .components(separatedBy: "\n")
+            .filter{ !$0.isEmpty }
+            .compactMap{ Int($0) }
+            .map{ Depth.init(value: $0) }
+        return depths
+    }
+}
 
 final class AdventOfCodeTests: XCTestCase {
     
@@ -66,4 +84,16 @@ final class AdventOfCodeTests: XCTestCase {
         let depthIncreasedAtTheEnd: [Depth] = [.init(value: 1), .init(value: 1), .init(value: 1), .init(value: 3)]
         XCTAssertEqual(try! sut.process(input: depthIncreasedAtTheEnd), 1)
     }
+    
+    func test_submarine_returnsDepthsList_whenUsingFileInputSonar_and_increasedCount_equals1139() {
+        let sonar = Sonar.withDepthsFromFile(textfile: "day_1")
+        
+        let sut = Submarine(sonar: sonar, depth: .init(value: 0), didPerformSonarSweep: { receivedDepths in
+            let increasedCount = try! DepthAnalyzer.process(input: receivedDepths)
+            XCTAssertEqual(1139, increasedCount)
+        })
+        
+        sut.performSonarSweep()
+    }
+    
 }

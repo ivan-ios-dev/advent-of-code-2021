@@ -10,7 +10,7 @@ As an additional goal, let's also make submitting the results to the Advent Of C
 ## Day 1
 
 Implemented following "features":
-	- Submarine can perform sonar sweep
-	- Depth Analyzer can process sonar sweep results
+- Submarine can perform sonar sweep
+- Depth Analyzer can process sonar sweep results
 
 [Detailed specs and Use Cases](DaysAsSpecs/Day1/Specs.md)

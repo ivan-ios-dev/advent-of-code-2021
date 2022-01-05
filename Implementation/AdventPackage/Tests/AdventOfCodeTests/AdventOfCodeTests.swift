@@ -84,12 +84,12 @@ final class AdventOfCodeTests: XCTestCase {
         XCTAssertEqual(try! sut.process(input: increased5Times), 5)
     }
     
-    func test_submarine_returnsDepthsList_whenUsingFileInputSonar_and_increasedCount_equals1139() {
+    func test_submarine_returnsDepthsList_whenUsingFileInputSonar_and_increasedCount_equals1103() {
         let sonar = Sonar.withDepthsFromFile(textfile: "day_1")
         
         let sut = Submarine(sonar: sonar, depth: .init(value: 0), didPerformSonarSweep: { receivedDepths in
             let increasedCount = try! DepthAnalyzer.process(input: receivedDepths)
-            XCTAssertEqual(1139, increasedCount)
+            XCTAssertEqual(1103, increasedCount)
         })
         
         sut.performSonarSweep()

@@ -36,7 +36,7 @@ When doing TDD we can use Protocol-Oriented programming, which is quite popular 
 1. "Depth" - measurement type
 
 #### Main flow
-1. System returns the count of times the sum of "depth" measurements in 3-items sliding window increases from the previous sum
+1. System returns the count of times the sum of "depth" measurements in 3-items sliding window increases from the previous sum. Stop when there aren't enough measurements left to create a new three-measurement sum
 
 #### Failure flow (empty List of depths)
 1. If depths list is empty, system returns "Empty Depths List" error (we could have just return 0 in this case, but it sounds like an unexpected input, as submarine performs sonar sweep only when submerged in water, so we'd better return explicit error in this case)

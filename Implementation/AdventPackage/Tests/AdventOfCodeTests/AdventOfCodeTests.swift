@@ -69,20 +69,19 @@ final class AdventOfCodeTests: XCTestCase {
         }
     }
     
-    func test_depthAnalyzer_returnsDepthsIncreaseCount() {
+    func test_depthAnalyzer_returnsDepthsSumIncreasedCount_whenUsing3itemSlidingWindow() {
+        //example depths from Advent website
+        let depths = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263]
         let sut = DepthAnalyzer.self
         
-        let depthIncreased1Time: [Depth] = [.init(value: 1), .init(value: 2)]
-        XCTAssertEqual(try! sut.process(input: depthIncreased1Time), 1)
+        let increased1Time: [Depth] = depths.prefix(4).map{ Depth.init(value: $0) }
+        XCTAssertEqual(try! sut.process(input: increased1Time), 1)
         
-        let depthIncreasedZeroTime: [Depth] = [.init(value: 2), .init(value: 1)]
-        XCTAssertEqual(try! sut.process(input: depthIncreasedZeroTime), 0)
+        let notIncreased: [Depth] = depths[2...5].map{ Depth.init(value: $0) }
+        XCTAssertEqual(try! sut.process(input: notIncreased), 0)
         
-        let depthIncreased2Times: [Depth] = [.init(value: 1), .init(value: 2), .init(value: 2), .init(value: 3)]
-        XCTAssertEqual(try! sut.process(input: depthIncreased2Times), 2)
-        
-        let depthIncreasedAtTheEnd: [Depth] = [.init(value: 1), .init(value: 1), .init(value: 1), .init(value: 3)]
-        XCTAssertEqual(try! sut.process(input: depthIncreasedAtTheEnd), 1)
+        let increased5Times: [Depth] = depths.map{ Depth.init(value: $0) }
+        XCTAssertEqual(try! sut.process(input: increased5Times), 5)
     }
     
     func test_submarine_returnsDepthsList_whenUsingFileInputSonar_and_increasedCount_equals1139() {

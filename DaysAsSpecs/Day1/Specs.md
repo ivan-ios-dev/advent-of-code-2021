@@ -34,6 +34,7 @@ When doing TDD we can use Protocol-Oriented programming, which is quite popular 
 
 #### Entities
 1. "Depth" - measurement type
+2. "DepthAnalyzer" - contains logics of depths processing
 
 #### Main flow
 1. System returns the count of times the sum of "depth" measurements in 3-items sliding window increases from the previous sum. Stop when there aren't enough measurements left to create a new three-measurement sum

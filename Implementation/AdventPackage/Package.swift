@@ -21,6 +21,12 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "AdventOfCodeTests",
-            dependencies: ["AdventOfCode"]),
+            dependencies: [
+                "AdventOfCode"
+            ],
+            resources: [
+                .copy("inputs.bundle")
+            ]
+        ),
     ]
 )

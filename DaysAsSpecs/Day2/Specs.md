@@ -33,7 +33,8 @@ As submarine starts from the ship, this "horizontal position" is in fact horizon
 2. Submarine decreases depth by amount
 
 #### Failure flow (down)
-1. If submarine would not able to perform full movement amount, return "Not enough depth to move" error
+1. If submarine would not able to perform full movement amount, return "Not enough depth to move" error. 
+At the moment we don't have info on the depth just below the submarine, so we have to skip this requirement for now.
 
 #### Failure flow (up)
 1. If submarine would not able to perform full movement amount, submarine moves to the see level.

@@ -55,8 +55,22 @@ struct MovementRoute {
     }
 }
 
+private extension MovementRoute {
+    static func read(from textfile: String) -> Self {
+        let data = TestBundle.inputData(from: textfile)
+        let str = String(decoding: data, as: UTF8.self)
+        
+        let commands = str
+            .components(separatedBy: "\n")
+            .filter{ !$0.isEmpty }
+            .compactMap{ MovementCommand.fromString(input: $0) }
+    
+        return .init(commands: commands)
+    }
+}
+
 struct MovementCommand {
-    enum Direction {
+    enum Direction: String {
         case forward
         case up
         case down
@@ -64,6 +78,21 @@ struct MovementCommand {
     
     let direction: Direction
     let amount: Int
+}
+
+private extension MovementCommand {
+    static func fromString(input: String) -> Self? {
+        let components = input.components(separatedBy: .whitespaces)
+        guard components.count == 2 else {
+            return nil
+        }
+                
+        guard let direction = Direction(rawValue: components[0]),
+                let amount = Int(components[1]) else {
+            return nil
+        }
+        return MovementCommand(direction: direction, amount: amount)
+    }
 }
 
 
@@ -90,7 +119,7 @@ final class NavigatorTests: XCTestCase {
             .init(direction: .forward, amount: 2)
         ])
         
-        let end = try! sut.position(from: Position.zero, with: route)
+        let end = try! sut.position(from: .zero, with: route)
         let expectedPosition = Position.init(depth: .init(value: 10), distance: .init(value: 15))
         
         XCTAssertEqual(end.depth, expectedPosition.depth)
@@ -107,13 +136,23 @@ final class NavigatorTests: XCTestCase {
         let expectedError: Error = "WrongMovementRoute"
         
         XCTAssertThrowsError(
-            try sut.position(from: Position.zero, with: route)
+            try sut.position(from: .zero, with: route)
         ) { error in
             XCTAssertEqual(
                 error.localizedDescription,
                 expectedError.localizedDescription
             )
         }
+    }
+    
+    func test_navigator_returnsNewPosition_fromInitialPosition_withMovementRouteParsedFromFile() {
+        let sut = Navigator()
+        let route = MovementRoute.read(from: "day_2")
         
+        let end = try! sut.position(from: .zero, with: route)
+        
+        XCTAssertEqual(end.depth.value, 916)
+        XCTAssertEqual(end.distance.value, 1845)
+        XCTAssertEqual(end.depth.value * end.distance.value, 1_690_020)
     }
 }

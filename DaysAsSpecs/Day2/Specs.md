@@ -11,6 +11,7 @@ First it would be "MovementCommand". List of movement commands we can name "Move
 For "Submarine" we have "depth" from the 1st day, and we need to add "horizontal position".
 As submarine starts from the ship, this "horizontal position" is in fact horizontal distance to a ship.
 
+Although we defined a use case for submarine reacting to the movement commands, it looks like it is not required at the moment to proceed with the advent. So we'll skip it for now.
 
 ## Use Cases
 

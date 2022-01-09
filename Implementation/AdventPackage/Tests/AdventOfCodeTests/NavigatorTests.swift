@@ -17,14 +17,14 @@ struct Position: Equatable {
 }
 
 struct Navigator {
-    func position(from initial: Position, with route: MovementRoute) -> Position {
+    func position(from initial: Position, with route: MovementRoute) throws -> Position {
         guard !route.isEmpty else {
             return initial
         }
         
         var depthValue = initial.depth.value
         var distanceValue = initial.distance.value
-        route.commands.forEach { command in
+        try route.commands.forEach { command in
             switch command.direction {
             case .forward:
                 distanceValue += command.amount
@@ -32,6 +32,11 @@ struct Navigator {
                 depthValue += command.amount
             case .up:
                 depthValue -= command.amount
+            }
+            // Submarine won't be able to perform this command, thus calculated final
+            // position will be wrong, so we throw an error in this case
+            if depthValue < 0 {
+                throw "WrongMovementRoute"
             }
         }
         return .init(depth: .init(value: depthValue), distance: .init(value: distanceValue))
@@ -69,7 +74,7 @@ final class NavigatorTests: XCTestCase {
         let start = Position.zero
         let route = MovementRoute.empty
         
-        let end = sut.position(from: start, with: route)
+        let end = try! sut.position(from: start, with: route)
         
         XCTAssertEqual(start, end)
     }
@@ -85,10 +90,30 @@ final class NavigatorTests: XCTestCase {
             .init(direction: .forward, amount: 2)
         ])
         
-        let end = sut.position(from: Position.zero, with: route)
+        let end = try! sut.position(from: Position.zero, with: route)
         let expectedPosition = Position.init(depth: .init(value: 10), distance: .init(value: 15))
         
         XCTAssertEqual(end.depth, expectedPosition.depth)
         XCTAssertEqual(end.distance, expectedPosition.distance)
+    }
+    
+    func test_navigator_returnsWrongMovementRouteError_whenFinalDepthHasNegativeValue() {
+        let sut = Navigator()
+        let route = MovementRoute(commands: [
+            .init(direction: .forward, amount: 10),
+            .init(direction: .down, amount: 5),
+            .init(direction: .up, amount: 10)
+        ])
+        let expectedError: Error = "WrongMovementRoute"
+        
+        XCTAssertThrowsError(
+            try sut.position(from: Position.zero, with: route)
+        ) { error in
+            XCTAssertEqual(
+                error.localizedDescription,
+                expectedError.localizedDescription
+            )
+        }
+        
     }
 }

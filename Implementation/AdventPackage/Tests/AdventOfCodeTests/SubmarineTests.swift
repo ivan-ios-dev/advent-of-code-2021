@@ -33,7 +33,7 @@ final class SubmarineTests: XCTestCase {
 
     func test_submarine_performsSonarSweep_whenItsDepthIsGreaterThanZero() {
         var sonarSweepPerformedCount = 0
-        var sut = Submarine(sonar: .empty, depth: .init(value: 0), didPerformSonarSweep: { _ in
+        var sut = Submarine(sonar: .empty, position: .zero, didPerformSonarSweep: { _ in
             sonarSweepPerformedCount += 1
         })
         
@@ -41,7 +41,7 @@ final class SubmarineTests: XCTestCase {
         //it does not perform sonar sweep
         XCTAssertEqual(sonarSweepPerformedCount, 0)
         
-        sut.depth = .init(value: 10)
+        sut.position = .init(depth: .init(value: 10), distance: .init(value: 0))
         
         //Assert that when submarine is below the surface,
         //it performs sonar sweep
@@ -52,7 +52,7 @@ final class SubmarineTests: XCTestCase {
         let mockDepths: [Depth] = [.init(value: 10), .init(value: 20), .init(value: 30)]
         let sonar = Sonar.withMockDepths(mock: mockDepths)
         
-        let sut = Submarine(sonar: sonar, depth: .init(value: 0), didPerformSonarSweep: { receivedDepths in
+        let sut = Submarine(sonar: sonar, position: .zero, didPerformSonarSweep: { receivedDepths in
             XCTAssertEqual(mockDepths, receivedDepths)
         })
         
@@ -62,7 +62,7 @@ final class SubmarineTests: XCTestCase {
     func test_submarine_returnsDepthsList_whenUsingFileInputSonar_and_increasedCount_equals1103() {
         let sonar = Sonar.withDepthsFromFile(textfile: "day_1")
         
-        let sut = Submarine(sonar: sonar, depth: .init(value: 0), didPerformSonarSweep: { receivedDepths in
+        let sut = Submarine(sonar: sonar, position: .zero, didPerformSonarSweep: { receivedDepths in
             let increasedCount = try! DepthAnalyzer.process(input: receivedDepths)
             XCTAssertEqual(1103, increasedCount)
         })

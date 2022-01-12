@@ -4,7 +4,7 @@ struct Submarine {
     let sonar: Sonar
     //For now let's perform sonar sweep only when depth changes,
     //not automatically in time intervals
-    var depth: Depth {
+    var position: Position {
         didSet {
             performSonarSweep()
         }
